@@ -30,9 +30,9 @@ struct ContentView: View {
     
     var body: some View {
         //Paso 55, embebemos en un switch
-        //switch pokemonVM.status {
+        switch pokemonVM.status {
             
-       // case .success:
+        case .success:
             //Paso 32, ponemos el NavigationStack
             NavigationStack {
                 //V-77,Paso 29, ponemos (pokedex)
@@ -83,9 +83,9 @@ struct ContentView: View {
                     }
                 }
             }
-       /* default:
+        default:
             ProgressView()
-        }*/
+        }
     }
 }
 

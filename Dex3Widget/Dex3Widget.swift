@@ -11,8 +11,9 @@ import SwiftUI
 import CoreData
 
 struct Provider: TimelineProvider {
-    
+    //V-87,Paso 72.
     var randomPokemon :Pokemon {
+        
             let context = PersistenceController.shared.container.viewContext
 
             let fetchRequest:NSFetchRequest<Pokemon> = Pokemon.fetchRequest()
@@ -33,11 +34,12 @@ struct Provider: TimelineProvider {
     
     
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀",pokemon: SamplePokemon.samplePokemon)
+        //Paso 74
+        SimpleEntry(date: Date(),pokemon: SamplePokemon.samplePokemon)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀",pokemon: randomPokemon)
+        let entry = SimpleEntry(date: Date(),pokemon: randomPokemon)
         completion(entry)
     }
 
@@ -48,7 +50,7 @@ struct Provider: TimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀",pokemon: randomPokemon)
+            let entry = SimpleEntry(date: entryDate,pokemon: randomPokemon)
             entries.append(entry)
         }
 
@@ -59,12 +61,13 @@ struct Provider: TimelineProvider {
 }
 
 struct SimpleEntry: TimelineEntry {
+    //Paso 73
     let date: Date
-    let emoji: String
     let pokemon: Pokemon
 }
 
 struct Dex3WidgetEntryView : View {
+    //Paso 74, creamos los tamaños de los widgets
     @Environment(\.widgetFamily) var widgetSize
     var entry: Provider.Entry
 
@@ -105,11 +108,8 @@ struct Dex3Widget: Widget {
     }
 }
 
-/*#Preview(as: .systemSmall) {
+#Preview(as: .systemMedium) {
     Dex3Widget()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😀Juan Pablo", pokemon: <#Pokemon#>)
-    SimpleEntry(date: .now, emoji: "🤩")
-}*/
-
-
+    SimpleEntry(date: .now, pokemon: SamplePokemon.samplePokemon)
+}

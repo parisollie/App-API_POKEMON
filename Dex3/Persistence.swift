@@ -49,6 +49,7 @@ struct PersistenceController {
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }else{
+            //Vid 87,Paso 71-Widgets.
             container.persistentStoreDescriptions.first!.url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.pjff.Dex3Group")!.appending(path: "Dex3.sqlite")
         }
         
