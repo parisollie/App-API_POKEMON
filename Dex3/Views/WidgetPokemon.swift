@@ -6,20 +6,23 @@
 //
 
 import SwiftUI
-
+//V-85,Paso 68, creamos la pagina de los widgets
 enum WidgetSize{
     case small,medium,large
 }
 
 struct WidgetPokemon: View {
-    
+    //Pasp 69
     @EnvironmentObject var pokemon:Pokemon
     let widgetSize:WidgetSize
     var body: some View {
+        
         ZStack{
+            //Paso 70,Ponemos el color del widget
             Color(pokemon.types![0].capitalized)
             
             switch widgetSize{
+                //Creo los tamaños de los widgets
             case .small:
                 FetchedImage(url:pokemon.sprite)
             case .medium:
@@ -57,6 +60,7 @@ struct WidgetPokemon: View {
 }
 
 #Preview {
-    WidgetPokemon(widgetSize:.large)
+    //Aqui cambiamos el tamaño de los widgets para visualizarlo
+    WidgetPokemon(widgetSize:.medium)
         .environmentObject(SamplePokemon.samplePokemon)
 }

@@ -5,17 +5,20 @@
 //  Created by Paul F on 06/11/24.
 //
 
-//Vid 90
+//V-75,paso 25, se parece a la breaking bad, no explica mucho ver elbreaking bad 
 import Foundation
 
 @MainActor
 class PokemonViewModel: ObservableObject {
+    
     enum Status {
+        
         case notStarted
         case fetching
         case success
         case failed(error : Error)
     }
+    
     @Published private(set) var status = Status.notStarted
     
     private let controller: FetchController
@@ -23,29 +26,32 @@ class PokemonViewModel: ObservableObject {
     init(controller: FetchController) {
         self.controller = controller
         
+        //Paso 28, creamos el Task
         Task{
             await getPokemon()
         }
     }
-    
+    //Paso 27,creamos la funcion
     private func getPokemon() async {
         status = .fetching
         
         do {
-            //Vid 96
+            //Paso 60
             guard var pokedex = try await controller.fetchAllPokemon() else {
                 print("Pokemon have already been got. We good.")
                 status = .success
                 return
             }
+            //Los ordenamos
             pokedex.sort {$0.id < $1.id}
-            
+            //Vamos por cada uno de los pokemons
             for pokemon in pokedex {
                 let newPokemon = Pokemon(context: PersistenceController.shared.container.viewContext)
+                //Agregamos las propiedades
                 newPokemon.id = Int16(pokemon.id)
                 newPokemon.name = pokemon.name
                 newPokemon.types = pokemon.types
-                //Vid 96
+                //Paso 57,organizeTypes()
                 newPokemon.organizeTypes()
                 newPokemon.hp = Int16(pokemon.hp)
                 newPokemon.attack = Int16(pokemon.attack)

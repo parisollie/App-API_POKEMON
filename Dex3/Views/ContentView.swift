@@ -16,25 +16,31 @@ struct ContentView: View {
     //Paso 5,le ponemos Pokemon
     private var pokedex: FetchedResults<Pokemon>
     
-    //Vid 98
+    //V-84,Paso 61,favorites
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Pokemon.id, ascending: true)],
+        //solo haces fetch con los favoritos.
         predicate: NSPredicate(format: "favorite = %d", true),
         animation: .default
     )private var favorites: FetchedResults<Pokemon>
     
     @State var filterByFavorites = false
-    //Vid 96
+    //V-82,Paso 54
     @StateObject private var pokemonVM = PokemonViewModel(controller: FetchController())
     
     var body: some View {
-        //Vid 96, embebemos
-        switch pokemonVM.status {
-        case .success:
+        //Paso 55, embebemos en un switch
+        //switch pokemonVM.status {
+            
+       // case .success:
+            //Paso 32, ponemos el NavigationStack
             NavigationStack {
-                //Vid 91,(pokedex)
+                //V-77,Paso 29, ponemos (pokedex)
+                //Paso 63, los filtraremos por favoritos
                 List (filterByFavorites ?  favorites : pokedex) { pokemon in
-                    NavigationLink(value: pokemon ) {
+                    //Paso 30, ponemos el value: pokemon
+                    NavigationLink(value: pokemon) {
+                        //Paso 31, pondremos la imagen del pokemon
                         AsyncImage(url: pokemon.sprite) { image in
                             image
                                 .resizable()
@@ -42,25 +48,29 @@ struct ContentView: View {
                         }placeholder: {
                             ProgressView()
                         }
+                        //Hacemos la imagen mas pequeña
                         .frame(width: 100,height: 100)
                         //Paso 6,ponemos en mayúscula el nombre del pokemon
                         Text(pokemon.name!.capitalized)
-                        
+                        //Paso 64
                         if pokemon.favorite{
                             Image(systemName: "star.fill")
                                 .foregroundColor(.yellow)
                         }
+                        
                     }
                 }
+                //Paso 33 ponemos el title
                 .navigationTitle("Pokedex")
                 .navigationDestination(for: Pokemon.self , destination: { pokemon in
-                    //Vid 95
+                    //Paso 53,Hacia donde viajaremos.
                     PokemonDetail()
+                    //Hacia el pokemon que viajaremos
                         .environmentObject(pokemon)
                 })
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        //Vid 98
+                        //Paso 62, boton de favoritos.
                         Button {
                             withAnimation{
                                 filterByFavorites.toggle()
@@ -73,9 +83,9 @@ struct ContentView: View {
                     }
                 }
             }
-        default:
+       /* default:
             ProgressView()
-        }
+        }*/
     }
 }
 
